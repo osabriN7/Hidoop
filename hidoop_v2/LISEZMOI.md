@@ -89,9 +89,9 @@ mit nos classes dans un dossier hidoop_v2/src dans le bureau
 ### Launcement de l'application
 ## Répartissez les données sur le cluster à l'aide de HDFS: dossier_fichier:
 Dans ce projet, HDFS fournit 3 fonctionnalités principales:
-* ** Ecrire des données: ** décomposer un fichier fourni en morceaux et les répartir sur les serveurs (DataNodes)
-* ** Lire les données: ** récupérer les données qui ont été écrites sur les serveurs par le processus _write_ afin de reconstruire le fichier d'origine
-* ** Supprimer les données: ** supprimer les données stockées par les serveurs concernant un fichier spécifié
+* **Ecrire des données:** décomposer un fichier fourni en morceaux et les répartir sur les serveurs (DataNodes)
+* **Lire les données:** récupérer les données qui ont été écrites sur les serveurs par le processus _write_ afin de reconstruire le fichier d'origine
+* **Supprimer les données:** supprimer les données stockées par les serveurs concernant un fichier spécifié
 
 ### Data Format
 
@@ -113,10 +113,10 @@ Voici un exemple de contenu de fichier au format Line:
 In KV format, text file is composed of key-value pairs. Each pair is written **on a line**, separator is *\<-\>* symbol.  
 
 Here is an example of KV format file content :  
->movie<->inception  
->series<->game-of-thrones  
->dish<->pizza  
->colour<->blue  
+>omar<->SABRI  
+>inp<->ENSEEIHT  
+>France<->Toulouse  
+>color<->green  
 
 ### Write a file on HDFS
 
@@ -126,8 +126,7 @@ java hdfs.HdfsClient write <line|kv> <sourcefilename> [replicationfactor]
 ```
 * *\<line|kv\>* correspond au format de fichier d'entrée, au format ligne ou KV.
 * *\<sourcefilename\>* est le nom du fichier à poursuivre.
-* *\[replicationfactor\]* est un argument ** facultatif **. Il correspond au facteur de réplication du fichier, c'est-à-dire le nombre de fois que chaque morceau est dupliqué sur le cluster, afin d'anticiper les pannes du serveur. ** La valeur par défaut est 1 **.
-_Note : -cp is a shortcut for -classpath._
+* *\[replicationfactor\]* est un argument **facultatif **. Il correspond au facteur de réplication du fichier, c'est-à-dire le nombre de fois que chaque morceau est dupliqué sur le cluster, afin d'anticiper les pannes du serveur. **La valeur par défaut est 1**.
 
 ### Read a file from HDFS
 Pour lire un fichier depuis HDFS (correspond à la récupération de données depuis des serveurs), ouvrez un terminal dans le dossier racine du projet et exécutez la commande suivante:
@@ -186,62 +185,62 @@ _En effet, le processus MapReduce est assez coûteux et n'est utile que sur de g
 L'implémentation proposée du service HDFS est composée de 2 entités principales, * NameNode * et * DataNode *.
 Il fournit également une classe avec des méthodes statiques pour effectuer toutes les opérations possibles sur le système de fichiers, * HdfsClient *.
 
-Le *** NameNode *** est le processus Java exécuté sur le ** serveur maître du cluster **.
+Le ***NameNode*** est le processus Java exécuté sur le ** serveur maître du cluster **.
 Il supervise l'ensemble du réseau, stocke des informations sur les fichiers stockés sur le système de fichiers (métadonnées et emplacements des blocs de fichiers) et fournit une interface pour effectuer des requêtes sur les données.
 
-Le *** DataNode *** est le processus Java exécuté sur chacun des ** serveurs esclaves ** du cluster.
+Le ***DataNode*** est le processus Java exécuté sur chacun des ** serveurs esclaves ** du cluster.
 Il supervise les données stockées sur le serveur (chunks), effectuant les opérations contrôlées par le NameNode (réception / envoi / suppression de chunks).
 
 Les processus sont interconnectés par ** RMI **, et échangent des données via ** Socket en mode TCP **.
 Les 3 opérations possibles sur le système de fichiers HDFS sont celles effectuées par les méthodes statiques de la classe * HdfsClient *, à savoir:
 
-* ** HdfsWrite **: écrit un fichier sur le système de fichiers. Le fichier est divisé en morceaux, et chaque bloc est envoyé à un ou plusieurs * DataNode * (selon le facteur de réplication).
+* **HdfsWrite**: écrit un fichier sur le système de fichiers. Le fichier est divisé en morceaux, et chaque bloc est envoyé à un ou plusieurs * DataNode * (selon le facteur de réplication).
 Le choix du * DataNode * recevant le bloc est déterminé par le * NameNode *.
 
-* ** HdfsRead **: lit un fichier sur HDFS. Le NameNode fournit les emplacements des différents morceaux composant le fichier.
+* **HdfsRead**: lit un fichier sur HDFS. Le NameNode fournit les emplacements des différents morceaux composant le fichier.
 Pour chaque bloc, le client essaie de récupérer des données d'au moins un des serveurs contenant une copie.
 Une connexion est établie avec le DataNode du serveur, qui fournit le contenu du bloc au client.
 
-* ** HdfsDelete **: supprime un fichier de HDFS. Le NameNode fournit les emplacements des différents morceaux composant le fichier.
+* **HdfsDelete**: supprime un fichier de HDFS. Le NameNode fournit les emplacements des différents morceaux composant le fichier.
 
 ### Détails sur la mise en œuvre du concept MapReduce
 
 
-L'implémentation du concept MapReduce est composée de 2 entités majeures: ** JobManager ** et ** Daemon **.
+L'implémentation du concept MapReduce est composée de 2 entités majeures: **JobManager** et **Daemon**.
 
-Le ** JobManager ** est le processus Java, qui a un rôle similaire au * NameNode * mais du côté de l'application.
-Il supervise toutes les opérations en cours de * Daemons * Map and Reduce au sein du cluster.
+Le **JobManager** est le processus Java, qui a un rôle similaire au *NameNode* mais du côté de l'application.
+Il supervise toutes les opérations en cours de *Daemons* Map and Reduce au sein du cluster.
 Il assure également le suivi des * Jobs * lancés et permettrait, dans une future version, de gérer les pannes lors d'une opération Map.
 
-Le ** Daemon ** est le processus Java qui exécute une action définie par l'opération ** Map **.
-Les résultats de chaque carte seront agrégés et renvoyés au client grâce à l'opération ** Réduire **.
+Le **Daemon** est le processus Java qui exécute une action définie par l'opération **Map**.
+Les résultats de chaque carte seront agrégés et renvoyés au client grâce à l'opération **Réduce**.
 
-Un ** Job ** exécute les méthodes Map et Reduce d'une application MapReduce (* c'est-à-dire WordCount_MapReduce *) au sein du cluster.
-Il récupérera la liste des * Daemons * disponibles grâce au * JobManager *.
-Il récupérera également la liste des fragments si l'application nécessite un fichier d'entrée, écrit en * HDFS *.
-Ensuite, le Job exécutera les opérations Map et demandera au * JobManager * la progression des opérations jusqu'à ce que toutes les maps soient terminées.
-À la  fin, il lira le fichier résultat de la carte grâce à * HDFS * et lancera l'opération de réduction.
+Un **Job** exécute les méthodes Map et Reduce d'une application MapReduce (*c'est-à-dire WordCount_MapReduce*) au sein du cluster.
+Il récupérera la liste des * Daemons * disponibles grâce au *JobManager*.
+Il récupérera également la liste des fragments si l'application nécessite un fichier d'entrée, écrit en *HDFS*.
+Ensuite, le Job exécutera les opérations Map et demandera au *JobManager* la progression des opérations jusqu'à ce que toutes les maps soient terminées.
+À la  fin, il lira le fichier résultat de la carte grâce à *HDFS* et lancera l'opération de réduction.
 
 
 ## Prochaines étapes de développement: bulb:
 
 ### Service HDFS
-* ** Parallélisation des opérations côté client ** * (HdfsClient) *.
-* ** Surveillance du cluster ** amélioration * (NameNode) *.
-* ** Implémentation d'un HDFS Shell **, facilitant l'utilisation du système de fichiers.
-* ** Amélioration de l'architecture globale **.
-* ** Implémentation de nouveaux formats de fichiers **.
+* **Parallélisation des opérations côté client * **(HdfsClient)*.
+* **Surveillance du cluster ** amélioration * (NameNode) *.
+* **Implémentation d'un HDFS Shell **, facilitant l'utilisation du système de fichiers.
+* **Amélioration de l'architecture globale **.
+* **Implémentation de nouveaux formats de fichiers **.
 
 ### Implémentation du concept MapReduce
-* ** Parallélisation de l'opération Réduire **.
-* ** Gérer les pannes ** au cours d'une application MapReduce.
-* ** Optimiser la répartition des ressources ** en fonction du CPU utilisé par exemple (actuellement distribué en fonction du nombre de cartes par serveur).
-* ** Assurez-vous que le Job est exécuté sur un nœud de cluster ** et non sur la machine client (pour se rapprocher de la vraie architecture * Hadoop *).
-* ** Améliorez l'interface Job ** pour la rendre plus générique et accessible à d'autres types d'applications MapReduce.
+* **Parallélisation de l'opération Réduire **.
+* **Gérer les pannes ** au cours d'une application MapReduce.
+* **Optimiser la répartition des ressources ** en fonction du CPU utilisé par exemple (actuellement distribué en fonction du nombre de cartes par serveur).
+* **Assurez-vous que le Job est exécuté sur un nœud de cluster ** et non sur la machine client (pour se rapprocher de la vraie architecture * Hadoop *).
+* **Améliorez l'interface Job ** pour la rendre plus générique et accessible à d'autres types d'applications MapReduce.
 
 ### Applications MapReduce développées
-* Dans l'application PageRank, ** ajoutez une partie entière permettant d'analyser une page web avec [Jsoup] (https://jsoup.org/) ** afin de retrouver tous les liens (pages web existantes et pages web qui n'existe plus).
-* ** Développer plus d'applications ** basées sur le concept MapReduce (c'est-à-dire des algorithmes sur la couverture exacte comme * l'algorithme DLX * de Donald Knuth permettant de résoudre des sudokus ou d'autres puzzles de ce genre).
+* Dans l'application PageRank, **ajoutez une partie entière permettant d'analyser une page web avec [Jsoup] (https://jsoup.org/) ** afin de retrouver tous les liens (pages web existantes et pages web qui n'existe plus).
+* **Développer plus d'applications ** basées sur le concept MapReduce (c'est-à-dire des algorithmes sur la couverture exacte comme * l'algorithme DLX * de Donald Knuth permettant de résoudre des sudokus ou d'autres puzzles de ce genre).
 
 ## Contributors :busts_in_silhouette:
 
