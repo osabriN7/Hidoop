@@ -8,8 +8,8 @@
 
 Ce projet est notre premier travail sur le thème de la programmation répartie  pour le calcul intensif et le traitement des données massives.
 Il consiste en une version miniaturisée de [Hadoop](https://hadoop.apache.org/) (developed by Apache) et il est composé de deux grandes parties :
-* :file_folder: ** Un système Hdfs **H**adoop **D**istributed **F**ile **S**ystem (HDFS)_
-* :diamond_shape_with_a_dot_inside: ** Un modèle de programmation MapReduce.
+* :file_folder: **Un système Hdfs** **H**adoop **D**istributed **F**ile **S**ystem (HDFS)_
+* :diamond_shape_with_a_dot_inside: **Un modèle de programmation MapReduce**.
 
 ## Table de matière
 <details>
@@ -19,7 +19,7 @@ Il consiste en une version miniaturisée de [Hadoop](https://hadoop.apache.org/)
 - [**Démarer Hidoop** :rocket:](#run-hidoop-rocket)
     - [Deployer](#deployment)
     - [Launcer](#launching)
-- [** distribué les données dans le  cluster utilisant HDFS** :file_folder:](#spread-data-on-the-cluster-using-hdfs-file_folder)
+- [**distribué les données dans le  cluster utilisant HDFS** :file_folder:](#spread-data-on-the-cluster-using-hdfs-file_folder)
     - [Data Format](#data-format)
     - [Écrire un fichier en HDFS](#write-a-file-on-hdfs)
     - [Lire un fcihier en HDFS](#read-a-file-from-hdfs)
@@ -37,8 +37,8 @@ Il consiste en une version miniaturisée de [Hadoop](https://hadoop.apache.org/)
 
 ## Introduction
 
-Cette application permet à son utilisateur de ** traiter de grands quantités de données sur plusieurs serveurs ** à l'aide du modèle de programmation MapReduce.
-Ce modèle de programmation est utilisé pour ** paralléliser le traitement de données à grande échelle ** au sein d'un cluster en parle de la programmation répartie.
+Cette application permet à son utilisateur de **traiter de grands quantités de données sur plusieurs serveurs** à l'aide du modèle de programmation MapReduce.
+Ce modèle de programmation est utilisé pour **paralléliser le traitement de données à grande échelle** au sein d'un cluster en parle de la programmation répartie.
 Chaque serveur du cluster traite une petite partie des données qu'on appelle chunk.
 
 Dans ce projet, le traitement des données se déroule en 3 étapes:
@@ -56,11 +56,11 @@ Par exemple, le modèle de programmation MapReduce peut être utilisé pour para
 
 ### Preliminaire :
 
-* La version actuelle doit être exécutée sur un système ** Linux **.
+* La version actuelle doit être exécutée sur un système **Linux**.
 En effet, le démarrage de la version actuelle entraîne l'ouverture de différents terminaux permettant le suivi de l'activité des différents services.
-* Tous les serveurs (ou machine) doivent être dans un même ** réseau **, ** accessible par la machine exécutant le projet ** (ex. vpn n7).
-* Les serveurs doivent être accessibles via ** SSH **.
-* Tous les serveurs doivent avoir une ** version récente de Java ** (1.8 ou plus récente).
+* Tous les serveurs (ou machine) doivent être dans un même **réseau**, **accessible par la machine exécutant le projet** (ex. vpn n7).
+* Les serveurs doivent être accessibles via **SSH**.
+* Tous les serveurs doivent avoir une **version récente de Java** (1.8 ou plus récente).
 
 ### Déploiment
 Le script "deployPython" nous offre deux fonctionnalités:
@@ -99,7 +99,7 @@ Les données à traiter doivent être stockées sous forme de fichier. La versio
 
 
 #### Line format
-Au format Ligne, le texte est écrit ** ligne par ligne **. Une ligne de texte est considérée comme une unité de données, la longueur des lignes ne doit donc pas être trop disparate.
+Au format Ligne, le texte est écrit **ligne par ligne**. Une ligne de texte est considérée comme une unité de données, la longueur des lignes ne doit donc pas être trop disparate.
 
 Voici un exemple de contenu de fichier au format Line:
 > C'est le contenu du fichier.
@@ -110,9 +110,10 @@ Voici un exemple de contenu de fichier au format Line:
 
 
 #### KV format
-In KV format, text file is composed of key-value pairs. Each pair is written **on a line**, separator is *\<-\>* symbol.  
+Au format KV, le fichier texte est composé de paires clé-valeur. Chaque paire est écrite **sur une ligne**, le séparateur est le symbole * \ <- \> *.
 
-Here is an example of KV format file content :  
+Voici un exemple de contenu de fichier au format KV:
+
 >omar<->SABRI  
 >inp<->ENSEEIHT  
 >France<->Toulouse  
@@ -152,7 +153,7 @@ Les modèles d'application MapReduce sont donnés dans le package _src / applica
 
 ### WordCount application
  
-**Wordcount** est une application MapReduce exécutable sur la plateforme Hiddop.
+**Wordcount** est une application MapReduce exécutable sur la plateforme Hidoop.
 Cette application compte le nombre d'occurrences de chaque mot dans un grand fichier texte au format Ligne.
 L'application se trouve dans le package _src / application / _.
 
@@ -174,28 +175,28 @@ java application.WordCount_MapReduce <filename>
 > `java application.WordCount_MapReduce filesample.txt`
 > Le résultat du processus est écrit dans le fichier _results / resf-filesample.txt_, au format KV.
 
-_Note: Il est possible de comparer les performances des applications MapReduce avec leurs versions itératives, également présentes dans le package * src / application * ._
-_ Gardez à l'esprit que * le gain de temps ne sera perceptible que sur les fichiers très volumineux (> 10 Go) *, sans tenir compte du temps passé à écrire des fichiers sur HDFS._
+_Note: Il est possible de comparer les performances des applications MapReduce avec leurs versions itératives, également présentes dans le package src / application  ._
+_ Gardez à l'esprit que **le gain de temps ne sera perceptible que sur les fichiers très volumineux (> 10 Go)**, sans tenir compte du temps passé à écrire des fichiers sur HDFS._
 _En effet, le processus MapReduce est assez coûteux et n'est utile que sur de grands ensembles de données._
 
 
 ## Comment Hidoop marche ?:
 
 ###  Détails sur HDFS
-L'implémentation proposée du service HDFS est composée de 2 entités principales, * NameNode * et * DataNode *.
-Il fournit également une classe avec des méthodes statiques pour effectuer toutes les opérations possibles sur le système de fichiers, * HdfsClient *.
+L'implémentation proposée du service HDFS est composée de 2 entités principales, **NameNode** et **DataNode**.
+Il fournit également une classe avec des méthodes statiques pour effectuer toutes les opérations possibles sur le système de fichiers, **HdfsClient**.
 
-Le ***NameNode*** est le processus Java exécuté sur le ** serveur maître du cluster **.
+Le ***NameNode*** est le processus Java exécuté sur le **serveur maître du cluster**.
 Il supervise l'ensemble du réseau, stocke des informations sur les fichiers stockés sur le système de fichiers (métadonnées et emplacements des blocs de fichiers) et fournit une interface pour effectuer des requêtes sur les données.
 
-Le ***DataNode*** est le processus Java exécuté sur chacun des ** serveurs esclaves ** du cluster.
+Le ***DataNode*** est le processus Java exécuté sur chacun des **serveurs esclaves** du cluster.
 Il supervise les données stockées sur le serveur (chunks), effectuant les opérations contrôlées par le NameNode (réception / envoi / suppression de chunks).
 
-Les processus sont interconnectés par ** RMI **, et échangent des données via ** Socket en mode TCP **.
-Les 3 opérations possibles sur le système de fichiers HDFS sont celles effectuées par les méthodes statiques de la classe * HdfsClient *, à savoir:
+Les processus sont interconnectés par **RMI **, et échangent des données via **Socket en mode TCP**.
+Les 3 opérations possibles sur le système de fichiers HDFS sont celles effectuées par les méthodes statiques de la classe **HdfsClient**, à savoir:
 
-* **HdfsWrite**: écrit un fichier sur le système de fichiers. Le fichier est divisé en morceaux, et chaque bloc est envoyé à un ou plusieurs * DataNode * (selon le facteur de réplication).
-Le choix du * DataNode * recevant le bloc est déterminé par le * NameNode *.
+* **HdfsWrite**: écrit un fichier sur le système de fichiers. Le fichier est divisé en morceaux, et chaque bloc est envoyé à un ou plusieurs **DataNode** (selon le facteur de réplication).
+Le choix du **DataNode** recevant le bloc est déterminé par le **NameNode**.
 
 * **HdfsRead**: lit un fichier sur HDFS. Le NameNode fournit les emplacements des différents morceaux composant le fichier.
 Pour chaque bloc, le client essaie de récupérer des données d'au moins un des serveurs contenant une copie.
@@ -216,31 +217,31 @@ Le **Daemon** est le processus Java qui exécute une action définie par l'opér
 Les résultats de chaque carte seront agrégés et renvoyés au client grâce à l'opération **Réduce**.
 
 Un **Job** exécute les méthodes Map et Reduce d'une application MapReduce (*c'est-à-dire WordCount_MapReduce*) au sein du cluster.
-Il récupérera la liste des * Daemons * disponibles grâce au *JobManager*.
-Il récupérera également la liste des fragments si l'application nécessite un fichier d'entrée, écrit en *HDFS*.
-Ensuite, le Job exécutera les opérations Map et demandera au *JobManager* la progression des opérations jusqu'à ce que toutes les maps soient terminées.
+Il récupérera la liste des **Daemon** disponibles grâce au **JobManager**.
+Il récupérera également la liste des fragments si l'application nécessite un fichier d'entrée, écrit en **HDFS**.
+Ensuite, le Job exécutera les opérations Map et demandera au **JobManager** la progression des opérations jusqu'à ce que toutes les maps soient terminées.
 À la  fin, il lira le fichier résultat de la carte grâce à *HDFS* et lancera l'opération de réduction.
 
 
 ## Prochaines étapes de développement: bulb:
 
 ### Service HDFS
-* **Parallélisation des opérations côté client * **(HdfsClient)*.
-* **Surveillance du cluster ** amélioration * (NameNode) *.
-* **Implémentation d'un HDFS Shell **, facilitant l'utilisation du système de fichiers.
-* **Amélioration de l'architecture globale **.
-* **Implémentation de nouveaux formats de fichiers **.
+* **Parallélisation des opérations côté client* **(HdfsClient)*.
+* **Surveillance du cluster** amélioration **(NameNode)**.
+* **Implémentation d'un HDFS Shell**, facilitant l'utilisation du système de fichiers.
+* **Amélioration de l'architecture globale**.
+* **Implémentation de nouveaux formats de fichiers**.
 
 ### Implémentation du concept MapReduce
-* **Parallélisation de l'opération Réduire **.
-* **Gérer les pannes ** au cours d'une application MapReduce.
-* **Optimiser la répartition des ressources ** en fonction du CPU utilisé par exemple (actuellement distribué en fonction du nombre de cartes par serveur).
-* **Assurez-vous que le Job est exécuté sur un nœud de cluster ** et non sur la machine client (pour se rapprocher de la vraie architecture * Hadoop *).
-* **Améliorez l'interface Job ** pour la rendre plus générique et accessible à d'autres types d'applications MapReduce.
+* **Parallélisation de l'opération Réduire**.
+* **Gérer les pannes** au cours d'une application MapReduce.
+* **Optimiser la répartition des ressources** en fonction du CPU utilisé par exemple (actuellement distribué en fonction du nombre de cartes par serveur).
+* **Assurez-vous que le Job est exécuté sur un nœud de cluster** et non sur la machine client (pour se rapprocher de la vraie architecture **Hadoop**).
+* **Améliorez l'interface Job** pour la rendre plus générique et accessible à d'autres types d'applications MapReduce.
 
 ### Applications MapReduce développées
-* Dans l'application PageRank, **ajoutez une partie entière permettant d'analyser une page web avec [Jsoup] (https://jsoup.org/) ** afin de retrouver tous les liens (pages web existantes et pages web qui n'existe plus).
-* **Développer plus d'applications ** basées sur le concept MapReduce (c'est-à-dire des algorithmes sur la couverture exacte comme * l'algorithme DLX * de Donald Knuth permettant de résoudre des sudokus ou d'autres puzzles de ce genre).
+* Dans l'application PageRank, **ajoutez une partie entière permettant d'analyser une page web avec [Jsoup] (https://jsoup.org/)** afin de retrouver tous les liens (pages web existantes et pages web qui n'existe plus).
+* **Développer plus d'applications** basées sur le concept MapReduce (c'est-à-dire des algorithmes sur la couverture exacte comme **l'algorithme DLX** de Donald Knuth permettant de résoudre des sudokus ou d'autres puzzles de ce genre).
 
 ## Contributors :busts_in_silhouette:
 
