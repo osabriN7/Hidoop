@@ -1,5 +1,4 @@
-Ce répertoire correspond à l'arborescence de fichiers que doivent **impérativement**
-respecter vos rendus
+Ce répertoire correspond à l'arborescence de fichiers :
 
 - le répertoire config contient les fichiers d'initialisation pouvant être utiles lors du lancement de la plateforme
 - le répertoire data accueille les fichiers de données de l'application
