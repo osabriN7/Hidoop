@@ -38,7 +38,7 @@ Il consiste en une version miniaturisée de [Hadoop](https://hadoop.apache.org/)
 ## Introduction
 
 Cette application permet à son utilisateur de **traiter de grands quantités de données sur plusieurs serveurs** à l'aide du modèle de programmation MapReduce.
-Ce modèle de programmation est utilisé pour **paralléliser le traitement de données à grande échelle** au sein d'un cluster en parle de la programmation répartie.
+Ce modèle de programmation est utilisé pour **paralléliser le traitement de données à grande échelle** au sein d'un cluster on parle de la programmation répartie.
 Chaque serveur du cluster traite une petite partie des données qu'on appelle chunk.
 
 Dans ce projet, le traitement des données se déroule en 3 étapes:
